@@ -340,7 +340,7 @@ footer .soc a:hover{color:#04070d;background:var(--accent);border-color:transpar
 .d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}.d4{transition-delay:.32s}
 
 /* ---------- barre de progression de lecture ---------- */
-#progress{position:fixed;top:0;left:0;height:2px;width:0;background:linear-gradient(90deg,var(--accent),#6ee7b7);z-index:130;box-shadow:0 0 12px rgba(16,185,129,.6)}
+#progress{position:fixed;top:0;left:0;height:2px;width:100%;background:linear-gradient(90deg,var(--accent),#6ee7b7);transform:scaleX(0);transform-origin:0 50%;z-index:130;will-change:transform}
 
 /* ---------- beside inclinaison 3D + reflet ---------- */
 .b-card,.proj{transform-style:preserve-3d;will-change:transform}
@@ -430,6 +430,23 @@ nav.top.scrolled{padding:10px 24px 0}
   .edu{padding:20px}
   .stack-wrap{padding:18px}
   .chip{font-size:.74rem;padding:7px 12px}
+
+  /* ===== mode performance mobile : on coupe tout ce qui fait ramer ===== */
+  /* 1. plus de flous d'arrière-plan (backdrop-filter = très coûteux) */
+  *{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+  .nav-in,.b-card,.proj,.edu,.stack-wrap,.contact-box,.float-chip,.nav-links,.badge-avail,.pill-badge,.btn-secondary,.sound-btn{background:rgba(13,19,32,.96)}
+  /* 2. orbes de fond : statiques et plus légères, 3ᵉ orb supprimée */
+  .amb{animation:none;filter:blur(70px);opacity:.09;will-change:transform}
+  .amb-3{display:none}
+  /* 3. calques fixes décoratifs : supprimés */
+  .noise-overlay,.grid-fade{display:none}
+  /* 4. animations continues désactivées */
+  .phone{animation:none}
+  .avatar-ring::before{animation:none}
+  .hero h1 .hl{animation:none;background-position:0 0}
+  .hero::before{animation:none}
+  /* 5. apparitions sans filtre flou (repaints lourds) */
+  .rv{filter:none;transition:opacity .6s ease,transform .7s cubic-bezier(.22,1,.36,1)}
 }
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
@@ -1014,32 +1031,39 @@ const io = new IntersectionObserver(entries=>{
 },{threshold:.14});
 document.querySelectorAll('.rv').forEach(el=>io.observe(el));
 
-/* ============ 2. Barre de progression + nav dynamique ============ */
+/* ============ 2. Barre de progression + nav dynamique (optimisé : tout est calculé une fois) ============ */
 const prog=document.getElementById('progress');
 const navTop=document.querySelector('nav.top');
 const secs=document.querySelectorAll('section[id],header[id]');
 const navAs=document.querySelectorAll('.nav-links a[href^="#"]');
+const ambients=[...document.querySelectorAll('.amb')];
+let tops=[],maxH=1;
+function measure(){
+  tops=[...secs].map(s=>s.offsetTop-140);
+  maxH=Math.max(1,document.documentElement.scrollHeight-document.documentElement.clientHeight);
+}
+addEventListener('load',measure);
+addEventListener('resize',()=>{measure()});
+measure();
 let ticking=false;
 function onScroll(){
-  const h=document.documentElement;
-  const max=h.scrollHeight-h.clientHeight;
-  const sc=max>0?(h.scrollTop||document.body.scrollTop)/max:0;
-  prog.style.width=(sc*100)+'%';
-  navTop.classList.toggle('scrolled',(h.scrollTop||0)>40);
+  const y=window.scrollY||0;
+  /* barre de progression : scaleX pur, aucun recalcul de mise en page */
+  prog.style.transform='scaleX('+Math.min(1,y/maxH)+')';
+  navTop.classList.toggle('scrolled',y>40);
+  /* lien actif : top pré-calculé, zéro relecture du DOM */
   let cur='';
-  secs.forEach(s=>{if((h.scrollTop||0)>=s.offsetTop-140)cur=s.id});
+  for(let i=0;i<tops.length;i++){ if(y>=tops[i]) cur=secs[i].id; }
   navAs.forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+cur));
-  /* parallaxe des orbes */
+  /* parallaxe des orbes : translate3d, transformé en GPU, sans layout */
   if(!reduceMotion){
-    const y=h.scrollTop||0;
-    ambients.forEach((o,i)=>{
-      o.style.marginTop=(y*(0.06+i*0.045)*(i%2?-1:1))+'px';
-    });
+    for(let i=0;i<ambients.length;i++){
+      ambients[i].style.transform='translate3d(0,'+(y*(0.06+i*0.045)*(i%2?-1:1)).toFixed(1)+'px,0)';
+    }
   }
   ticking=false;
 }
 addEventListener('scroll',()=>{ if(!ticking){requestAnimationFrame(onScroll);ticking=true} },{passive:true});
-const ambients=[...document.querySelectorAll('.amb')];
 
 /* ============ 3. Inclinaison 3D + reflet sur les cartes ============ */
 const tiltCards=document.querySelectorAll('.b-card,.proj');
@@ -1145,6 +1169,12 @@ if(vDemo && sBtn){
     sBtn.setAttribute('aria-pressed',String(!vDemo.muted));
     sBtn.setAttribute('aria-label',vDemo.muted?'Activer le son de la démo':'Couper le son de la démo');
   });
+  /* la vidéo n'est décodée QUE quand elle est à l'écran (économie CPU/batterie) */
+  const vio=new IntersectionObserver(es=>es.forEach(e=>{
+    if(e.isIntersecting){ if(!vDemo.ended) vDemo.play().catch(()=>{}); }
+    else{ vDemo.pause(); }
+  }),{threshold:.15});
+  vio.observe(vDemo);
 }
 </script>
 </body>
