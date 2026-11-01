@@ -1,9 +1,9 @@
 # Portfolio — Ulrich Kodjo Ahlin OHIN
 
-Portfolio one-page (HTML/CSS/JS pur, aucune dépendance) : systèmes, réseaux & sécurité, développement web/SaaS, IA, et créations graphiques.
+Portfolio one-page (HTML/CSS/JS pur, aucune dépendance) : systèmes, réseaux & sécurité, développement web/SaaS et IA.
 
-- **Index** : `index.html` (page unique, sections : Accueil, Parcours, Projets, Services, Graphisme, Stack, Formation, Contact)
-- **Assets** : `assets/` (photo, CV PDF, démo produit SmartSouvenir, créations graphiques)
+- **Index** : `index.html` (page unique, sections : Accueil, Parcours, Projets, Services, Stack, Formation, Contact)
+- **Assets** : `assets/` (photo, CV PDF, démo produit SmartSouvenir)
 
 ## Déploiement
 Le site est publié avec **GitHub Pages** sur ce dépôt (branche `main`, dossier racine).

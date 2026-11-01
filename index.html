@@ -383,18 +383,6 @@ nav.top.scrolled{padding:10px 24px 0}
 .p-real{background:rgba(16,185,129,.1);color:#6ee7b7;border:1px solid var(--border-accent)}
 .p-explore{background:rgba(139,92,246,.12);color:#c4b5fd;border:1px solid rgba(139,92,246,.3)}
 
-/* ---------- section graphisme ---------- */
-.g-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
-.g-item{position:relative;border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--border-glass);background:var(--bg-card);min-height:190px}
-.g-item img{width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0;transition:transform .8s cubic-bezier(.16,1,.3,1),filter .5s ease}
-.g-item::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,rgba(4,7,13,.82));opacity:1;transition:opacity .4s ease;pointer-events:none}
-.g-item figcaption{position:absolute;left:16px;right:16px;bottom:14px;z-index:2;font-size:.8rem;font-weight:600;color:var(--text-primary);opacity:0;transform:translateY(8px);transition:all .4s cubic-bezier(.16,1,.3,1)}
-.g-item figcaption small{display:block;font-family:var(--font-mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:#6ee7b7;margin-top:3px;font-weight:500}
-.g-item:hover img{transform:scale(1.07)}
-.g-item:hover figcaption{opacity:1;transform:none}
-.g-item:hover::after{opacity:.9}
-.g-tall{min-height:320px}
-
 /* ---------- responsive ---------- */
 @media(max-width:980px){
   .hero-grid{grid-template-columns:1fr}
@@ -509,7 +497,6 @@ nav.top.scrolled{padding:10px 24px 0}
       <li><a href="#parcours">Parcours</a></li>
       <li><a href="#projets">Projets</a></li>
       <li><a href="#services">Services</a></li>
-      <li><a href="#graphisme">Graphisme</a></li>
       <li><a href="#technologies">Stack</a></li>
       <li><a href="#formation">Formation</a></li>
       <li><a href="#contact" class="nav-cta">Contact</a></li>
@@ -851,68 +838,6 @@ nav.top.scrolled{padding:10px 24px 0}
         <h3>Design &amp; support utilisateur</h3>
         <p>Supports visuels pour l'impression (Photoshop, grands formats), formation des équipes, guides de mise en service et assistance au quotidien.</p>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- ================= GRAPHISME ================= -->
-<section id="graphisme" style="background:linear-gradient(180deg,transparent,#0b112099 18%,#0b112099 82%,transparent);border-block:1px solid var(--border-glass)">
-  <div class="wrap">
-    <div class="sec-head">
-      <div class="sec-tag rv">graphisme &amp; création visuelle</div>
-      <h2 class="sec-title rv">Ma <span class="hl">première casquette</span> : le design.</h2>
-      <p class="sec-sub rv">Logos, chartes graphiques, étiquettes, affiches et supports de promotion — des années de pratique sur Adobe Photoshop avant de passer aux systèmes et au web.</p>
-    </div>
-
-    <div class="g-grid">
-      <figure class="g-item g-tall rv">
-        <img src="assets/design/my-energy-charte.jpg" alt="Charte graphique My Energy" loading="lazy">
-        <figcaption>Charte graphique My Energy<small>Identité de marque</small></figcaption>
-      </figure>
-      <figure class="g-item rv d1">
-        <img src="assets/design/kelly-basar-logo.png" alt="Logo Kelly Basar" loading="lazy">
-        <figcaption>Logo Kelly Basar<small>Identité de marque</small></figcaption>
-      </figure>
-      <figure class="g-item rv d2">
-        <img src="assets/design/valma-logo.png" alt="Logo Valma" loading="lazy">
-        <figcaption>Logo Valma<small>Identité de marque</small></figcaption>
-      </figure>
-      <figure class="g-item rv d3">
-        <img src="assets/design/bio-game-logo.jpg" alt="Logo Bio Game" loading="lazy">
-        <figcaption>Logo Bio Game<small>Identité de marque</small></figcaption>
-      </figure>
-      <figure class="g-item rv">
-        <img src="assets/design/gte-chris-delice.jpg" alt="Étiquette Chris Délice" loading="lazy">
-        <figcaption>Étiquette Chris Délice<small>Packaging</small></figcaption>
-      </figure>
-      <figure class="g-item rv d1">
-        <img src="assets/design/yaourt-heaven.jpg" alt="Étiquette Yaourt Heaven" loading="lazy">
-        <figcaption>Étiquette Yaourt Heaven<small>Packaging</small></figcaption>
-      </figure>
-      <figure class="g-item g-tall rv d2">
-        <img src="assets/design/promo-elrich.jpg" alt="Visuel code promo ELRICH" loading="lazy">
-        <figcaption>Visuel « Code promo ELRICH »<small>Communication digitale</small></figcaption>
-      </figure>
-      <figure class="g-item rv d3">
-        <img src="assets/design/promo-betwinner.jpg" alt="Visuel code promo Betwinner" loading="lazy">
-        <figcaption>Visuel code promo Betwinner<small>Communication digitale</small></figcaption>
-      </figure>
-      <figure class="g-item rv">
-        <img src="assets/design/akwaba-2025.jpg" alt="Affiche Akwaba 2025" loading="lazy">
-        <figcaption>Affiche Akwaba 2025<small>Événementiel</small></figcaption>
-      </figure>
-      <figure class="g-item rv d1">
-        <img src="assets/design/precieusa-clothing.jpg" alt="Boutique Precieusa Clothing" loading="lazy">
-        <figcaption>Precieusa Clothing<small>Identité de marque</small></figcaption>
-      </figure>
-      <figure class="g-item rv d2">
-        <img src="assets/design/boro-sandwich.jpg" alt="Flyer Boro Sandwichs" loading="lazy">
-        <figcaption>Boro Sandwichs<small>Restauration</small></figcaption>
-      </figure>
-      <figure class="g-item rv d3">
-        <img src="assets/design/jb-patisserie.jpg" alt="Visuel JB Pâtisserie" loading="lazy">
-        <figcaption>JB Pâtisserie<small>Restauration</small></figcaption>
-      </figure>
     </div>
   </div>
 </section>
